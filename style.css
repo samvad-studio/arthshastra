@@ -64,3 +64,17 @@ body, html {
 .data-label { color: #9ca3af; }
 .data-value { font-weight: bold; }
 
+.details-footer {
+    margin-top: 40px; /* Adds space above the footer */
+    border-top: 1px solid #374151; /* A subtle separator line */
+    padding-top: 20px;
+    width: 100%;
+}
+
+.details-footer p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #6b7280; /* Lighter gray for less emphasis */
+    text-align: center;
+}
+
