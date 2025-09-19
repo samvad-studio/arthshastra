@@ -81,6 +81,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // This function is the same as before
     function displayCountryDetails(country) {
         detailCountryName.textContent = country.CountryName;
+        // --- THIS IS THE IMPROVED PART ---
+    const lastUpdatedElement = document.getElementById('last-updated');
+    // First, check if the date data actually exists for this country
+    if (country.LastUpdated_Date) {
+        lastUpdatedElement.textContent = `Last updated on: ${country.LastUpdated_Date}`;
+        lastUpdatedElement.style.display = 'block'; // Make sure it's visible
+    } else {
+        // If no date, hide the element so there's no blank line
+        lastUpdatedIframe.style.display = 'none';
+    }
+    // --- END OF IMPROVED PART ---
         let gridHTML = `
             <div class="data-label">GDP Growth Rate</div><div class="data-value">${country.GDP_Growth_YoY}%</div>
             <div class="data-label">Inflation Rate</div><div class="data-value">${country.Inflation_CPI_YoY}%</div>
