@@ -81,17 +81,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // This function is the same as before
     function displayCountryDetails(country) {
         detailCountryName.textContent = country.CountryName;
-        // --- THIS IS THE IMPROVED PART ---
-    const lastUpdatedElement = document.getElementById('last-updated');
-    // First, check if the date data actually exists for this country
+        const lastUpdatedElement = document.getElementById('last-updated');
+         const lastUpdatedElement = document.getElementById('last-updated');
+    
+    // Check if the date data exists
     if (country.LastUpdated_Date) {
-        lastUpdatedElement.textContent = `Last updated on: ${country.LastUpdated_Date}`;
-        lastUpdatedElement.style.display = 'block'; // Make sure it's visible
+        // --- THIS IS THE NEW FORMATTING LOGIC ---
+
+        // 1. Create a formatter specifically for the India locale (en-IN)
+        //    and the Asia/Kolkata timezone (which is IST).
+        const formatter = new Intl.DateTimeFormat('en-IN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true, // This will give us AM/PM
+            timeZone: 'Asia/Kolkata', // Convert from UTC to IST
+            timeZoneName: 'short' // This will add "IST"
+        });
+
+        // 2. Create a Date object from the sheet's data string
+        const date = new Date(country.LastUpdated_Date);
+
+        // 3. Use the formatter to create the final, readable string
+        const formattedDate = formatter.format(date);
+
+        // The output will be something like: "19/09/2025, 12:00:00 am IST"
+        // We can replace the comma for a cleaner look.
+        lastUpdatedElement.textContent = `Last updated on: ${formattedDate.replace(',', ' at')}`;
+
+        // --- END OF NEW LOGIC ---
+
     } else {
-        // If no date, hide the element so there's no blank line
-        lastUpdatedIframe.style.display = 'none';
+        lastUpdatedElement.textContent = ''; // If no date, make it blank
     }
-    // --- END OF IMPROVED PART ---
         let gridHTML = `
             <div class="data-label">GDP Growth Rate</div><div class="data-value">${country.GDP_Growth_YoY}%</div>
             <div class="data-label">Inflation Rate</div><div class="data-value">${country.Inflation_CPI_YoY}%</div>
