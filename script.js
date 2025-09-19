@@ -82,8 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayCountryDetails(country) {
         detailCountryName.textContent = country.CountryName;
         const lastUpdatedElement = document.getElementById('last-updated');
-         const lastUpdatedElement = document.getElementById('last-updated');
-    
     // Check if the date data exists
     if (country.LastUpdated_Date) {
         // --- THIS IS THE NEW FORMATTING LOGIC ---
