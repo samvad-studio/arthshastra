@@ -29,6 +29,21 @@ const IMAGE_MAP = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+     const scrollContainer = document.querySelector('.scroll-container');
+    const scrollIndicator = document.querySelector('.scroll-down-indicator');
+
+    // Listen for scroll events on the main container
+    scrollContainer.addEventListener('scroll', () => {
+        // If the user has scrolled more than 20 pixels down...
+        if (scrollContainer.scrollTop > 20) {
+            // ...add the 'hidden' class to fade it out.
+            scrollIndicator.classList.add('hidden');
+        } else {
+            // Optional: If they scroll back to the very top, make it reappear.
+            scrollIndicator.classList.remove('hidden');
+        }
+    });
+    // --- END OF NEW LOGIC ---
     const countryListNav = document.getElementById('country-list');
     const pageThree = document.getElementById('page-three');
     const backBtn = document.getElementById('back-btn');
@@ -77,7 +92,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
+ // --- NEW, MORE ROBUST HELPER FUNCTION ---
+    function formatTradeBalance(value) {
+        // 1. Handle empty or invalid inputs first.
+        if (value === null || value === undefined || String(value).trim() === '') {
+            return "N/A";
+        }
+    
+        // 2. Convert to string and remove all characters that are not digits, a decimal point, or a minus sign.
+        const cleanValue = String(value).replace(/[^0-9.-]/g, '');
+    
+        // 3. Parse the cleaned string into a number.
+        const num = parseFloat(cleanValue);
+    
+        // 4. If parsing fails, return N/A.
+        if (isNaN(num)) {
+            return "N/A";
+        }
+    
+        let billions;
+        // If the absolute value is over a million, we assume it's a raw number needing conversion.
+        if (Math.abs(num) > 1000000) {
+            billions = num / 1_000_000_000;
+        } else {
+            // Otherwise, we assume it's already in billions.
+            billions = num;
+        }
+        
+        // Format to one decimal place and add the "bn" suffix.
+        const formattedNum = billions.toFixed(1);
+        return `${formattedNum} bn`;
+    }
     // This function is the same as before
     function displayCountryDetails(country) {
         detailCountryName.textContent = country.CountryName;

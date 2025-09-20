@@ -17,22 +17,45 @@ body, html {
 .page {
     height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: center;
     align-items: center; text-align: center; scroll-snap-align: start; position: relative;
+    /* --- THIS IS THE FIX --- */
+    /* Give each page its own solid background to prevent content overlap */
+    background-color: #ffffff;
 }
 .content { max-width: 900px; padding: 20px; box-sizing: border-box;  display: flex;             /* Turns this container into a flexible box */
     flex-direction: column;    /* Stacks items vertically (logo on top of text) */
     align-items: center;       /* Centers all items horizontally */
 }
 
+
 /* Page 1: Landing */
 #page-one h1 { font-size: 5rem; font-weight: 900; margin: 0; }
 #page-one p { font-size: 1.5rem; color: #9ca3af; }
-.scroll-down-indicator { position: absolute; bottom: 30px; color: #6b7280; animation: bounce 2s infinite; }
+.scroll-down-indicator {
+    position: absolute;
+    bottom: 30px;
+    color: #6b7280;
+    animation: bounce 2s infinite;
+    transition: opacity 0.5s ease; /* Add this for a smooth fade-out */
+}
+
+/* This new class will be added by JavaScript to hide the indicator */
+.scroll-down-indicator.hidden {
+    opacity: 0;
+    pointer-events: none; /* Prevents it from being interactive when invisible */
+}
 .scroll-down-indicator .arrow { width: 12px; height: 12px; border-right: 2px solid #6b7280; border-bottom: 2px solid #6b7280; transform: rotate(45deg); margin: 5px auto; }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
 /* --- Page 2: Country List (Updated for PNGs) --- */
+#page-two {
+    height: auto; /* Allow the page to grow with its content */
+    min-height: 100vh; /* Ensure it still takes at least the full screen height */
+    justify-content: flex-start; /* Align content to the top */
+    padding-top: 80px; /* Add generous space at the top */
+    padding-bottom: 80px; /* Add generous space at the bottom to prevent cutoff */
+}
 #page-two h2 { font-weight: 300; color: #004aad; margin-bottom: 40px; }
-#country-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+#country-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 900px; }
 #country-list a {
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     width: 200px; height: 180px; padding: 20px; box-sizing: border-box;

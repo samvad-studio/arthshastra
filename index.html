@@ -10,9 +10,10 @@
 
     <main class="scroll-container">
 
+        <!-- PAGE 1: Landing Screen -->
         <section id="page-one" class="page">
             <div class="content">
-               <img src="images/logo.png" alt="Arthshastra Logo" class="logo">
+                <img src="images/logo.png" alt="Arthshastra Logo" class="logo">
                 <p>by Samvad</p>
             </div>
             <div class="scroll-down-indicator">
@@ -21,28 +22,28 @@
             </div>
         </section>
 
+        <!-- PAGE 2: Country Selection (Structure is now simplified) -->
         <section id="page-two" class="page">
-            <div class="content">
-                <h2>Making research less frustrating.</h2>
-                <p id="last-updated"></p>
-                <nav id="country-list"></nav>
-            </div>
+            <h2>Making research less frustrating.</h2>
+            <nav id="country-list"></nav>
         </section>
 
-    </main> <div id="page-three" class="page-overlay">
+    </main>
+
+    <!-- PAGE 3: Data Details -->
+    <div id="page-three" class="page-overlay">
         <button id="back-btn">&larr; Back</button>
         <div class="content">
             <h2 id="detail-country-name"></h2>
             <div id="detail-data-grid"></div>
-            <!-- NEW FOOTER SECTION -->
-        <footer class="details-footer">
-            <p class="source-text">Source: FRED API and web scraping of official sources</p>
-        </footer>
-        <!-- END OF NEW SECTION -->
+            <footer class="details-footer">
+                <p id="last-updated"></p>
+                <p class="source-text">Source: FRED API and web scraping of official sources</p>
+            </footer>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
+
