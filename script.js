@@ -27,6 +27,28 @@ const IMAGE_MAP = {
     TR: 'images/tr.png'
     // Add more countries here as needed
 };
+// --- NEW: A map to associate country codes with currency symbols ---
+const CURRENCY_MAP = {
+    US: '$',
+    JP: '¥',
+    DE: '€',
+    GB: '£',
+    FR: '€',
+    IT: '€',
+    CA: '$',
+    CN: '¥',
+    IN: '₹',
+    BR: 'R$',
+    RU: '₽',
+    ZA: 'R',
+    AU: '$',
+    AR: '$',
+    ID: 'Rp',
+    MX: '$',
+    SA: '﷼',
+    KR: '₩',
+    TR: '₺'
+};
 
 document.addEventListener('DOMContentLoaded', () => {
      const scrollContainer = document.querySelector('.scroll-container');
@@ -92,36 +114,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
- // --- NEW, MORE ROBUST HELPER FUNCTION ---
+ // --- HELPER FUNCTIONS MOVED HERE (BEFORE THEY ARE CALLED) ---
     function formatTradeBalance(value) {
-        // 1. Handle empty or invalid inputs first.
-        if (value === null || value === undefined || String(value).trim() === '') {
-            return "N/A";
-        }
-    
-        // 2. Convert to string and remove all characters that are not digits, a decimal point, or a minus sign.
+        if (value === null || value === undefined || String(value).trim() === '') return "N/A";
         const cleanValue = String(value).replace(/[^0-9.-]/g, '');
-    
-        // 3. Parse the cleaned string into a number.
         const num = parseFloat(cleanValue);
-    
-        // 4. If parsing fails, return N/A.
-        if (isNaN(num)) {
-            return "N/A";
-        }
-    
-        let billions;
-        // If the absolute value is over a million, we assume it's a raw number needing conversion.
-        if (Math.abs(num) > 1000000) {
-            billions = num / 1_000_000_000;
-        } else {
-            // Otherwise, we assume it's already in billions.
-            billions = num;
-        }
-        
-        // Format to one decimal place and add the "bn" suffix.
-        const formattedNum = billions.toFixed(1);
-        return `${formattedNum} bn`;
+        if (isNaN(num)) return "N/A";
+        let billions = (Math.abs(num) > 1000000) ? num / 1_000_000_000 : num;
+        return `${billions.toFixed(1)} bn`;
+    }
+
+    function formatStockIndex(value) {
+        if (value === null || value === undefined || String(value).trim() === '') return "N/A";
+        const cleanValue = String(value).replace(/[^0-9.]/g, '');
+        const num = parseFloat(cleanValue);
+        if (isNaN(num)) return "N/A";
+        return num.toLocaleString('en-US');
     }
     // This function is the same as before
     function displayCountryDetails(country) {
@@ -159,14 +167,20 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         lastUpdatedElement.textContent = ''; // If no date, make it blank
     }
+    const formattedTradeBalance = formatTradeBalance(country.TradeBalance_USD);
+        const formattedStockValue = formatStockIndex(country.StockIndex_Value);
+        const stockIndexName = country.StockIndex_Name || '';
+        const currencySymbol = CURRENCY_MAP[country.CountryCode_ISO2] || '';
+        const stockDisplayValue = `(${stockIndexName}) ${currencySymbol}${formattedStockValue}`;
+    
         let gridHTML = `
             <div class="data-label">GDP Growth Rate</div><div class="data-value">${country.GDP_Growth_YoY}%</div>
             <div class="data-label">Inflation Rate</div><div class="data-value">${country.Inflation_CPI_YoY}%</div>
             <div class="data-label">Policy Rate</div><div class="data-value">${country.PolicyRate_Percent}%</div>
             <div class="data-label">Unemployment Rate</div><div class="data-value">${country.Unemployment_Percent}%</div>
             <div class="data-label">Government 10Y Bond Yield</div><div class="data-value">${country.GovBond_10Y_Yield}%</div>
-            <div class="data-label">Trade Balance (USD)</div><div class="data-value">${country.TradeBalance_USD}</div>
-            <div class="data-label">Stock Index Value</div><div class="data-value">${country.StockIndex_Value}</div>
+            <div class="data-label">Trade Balance (USD)</div><div class="data-value">${formattedTradeBalance}</div>
+            <div class="data-label">Stock Index Value</div><div class="data-value">${stockDisplayValue}</div>
         `;
         detailDataGrid.innerHTML = gridHTML;
         pageThree.classList.add('visible');
