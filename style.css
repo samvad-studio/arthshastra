@@ -20,13 +20,31 @@ body, html {
     /* --- THIS IS THE FIX --- */
     /* Give each page its own solid background to prevent content overlap */
     background-color: #ffffff;
+    position: relative; /* This is needed for the background image layer */
+    overflow: hidden;
 }
 .content { max-width: 900px; padding: 20px; box-sizing: border-box;  display: flex;             /* Turns this container into a flexible box */
     flex-direction: column;    /* Stacks items vertically (logo on top of text) */
     align-items: center;       /* Centers all items horizontally */
+    position: relative; /* Added to ensure content is on top of the background */
+    z-index: 2; 
 }
 
-
+#page-one::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* --- THIS IS THE LINE TO EDIT --- */
+    /* Replace 'YOUR_IMAGE_FILENAME.jpg' with the name of the file you uploaded */
+    background-image: url('images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1; /* Sets the image to 20% opacity */
+    z-index: 1; /* Places this layer behind the content */
+}
 /* Page 1: Landing */
 #page-one .logo { 
     max-height: 100px;
