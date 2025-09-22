@@ -1,6 +1,6 @@
 /* Basic Setup & Dark Theme */
 body, html {
-    margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0; padding: 0; font-family: Zalando Sans Expanded, sans-serif;
     background-color: #d7d7d7; color: #004aad; overflow: hidden;
 }
 
@@ -28,6 +28,15 @@ body, html {
 
 
 /* Page 1: Landing */
+#page-one .logo { 
+    max-height: 100px;
+    /* --- THIS IS THE FIX --- */
+    max-width: 80%;      /* Ensures the logo is never wider than 80% of the content area */
+    width: auto;         /* Maintains the logo's natural aspect ratio */
+    height: auto;        /* Allows the height to scale down with the width */
+    /* --- END OF FIX --- */
+    margin-bottom: 15px;
+}
 #page-one h1 { font-size: 5rem; font-weight: 900; margin: 0; }
 #page-one p { font-size: 1.5rem; color: #9ca3af; }
 .scroll-down-indicator {
@@ -120,4 +129,63 @@ body, html {
 
 .change-value.negative {
     color: #f87171; /* Red */
+}
+
+@media (max-width: 768px) {
+
+    /* --- General Adjustments --- */
+    .page {
+        /* Allow pages to scroll if content overflows on small screens */
+        height: auto;
+        min-height: 100vh;
+    }
+    .scroll-container {
+        /* Smoother scrolling on mobile */
+        scroll-snap-type: y proximity;
+    }
+
+    /* --- Page 1: Landing --- */
+    #page-one .logo {
+        max-height: 80px; /* Make logo smaller */
+    }
+    #page-one p {
+        font-size: 1.2rem;
+    }
+
+    /* --- Page 2: Country Selection --- */
+    #country-list {
+        gap: 15px; /* Reduce gap between cards */
+        /* Let cards take up more space */
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+    #country-list a {
+        width: 100%; /* Make cards full width of their grid cell */
+        height: 160px;
+    }
+    #page-two h2 {
+        font-size: 1.2rem;
+    }
+
+    /* --- Page 3: Details Overlay --- */
+    #back-btn {
+        top: 20px;
+        left: 20px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    #detail-country-name {
+        font-size: 2.5rem; /* Reduce main title size */
+        margin-bottom: 30px;
+    }
+
+    /* This is the most important change: stack the data grid */
+    #detail-data-grid {
+        grid-template-columns: 1fr; /* Change from two columns to one */
+        gap: 25px; /* Increase vertical gap */
+        font-size: 1rem;
+    }
+    
+    .data-label {
+        font-size: 0.9rem;
+    }
 }
