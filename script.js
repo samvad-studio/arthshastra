@@ -6,12 +6,12 @@ const IMAGE_MAP = {
     US: 'images/us.png', JP: 'images/jp.png', DE: 'images/de.png', GB: 'images/gb.png', FR: 'images/fr.png',
     IT: 'images/it.png', CA: 'images/ca.png', CN: 'images/cn.png', IN: 'images/in.png', BR: 'images/br.png',
     RU: 'images/ru.png', ZA: 'images/za.png', AU: 'images/au.png', AR: 'images/ar.png', ID: 'images/id.png',
-    MX: 'images/mx.png', SA: 'images/sa.png', KR: 'images/kr.png', TR: 'images/tr.png'
+    MX: 'images/mx.png', SA: 'images/sa.png', KR: 'images/kr.png', TR: 'images/tr.png', IL: 'images/il.png'
 };
 const CURRENCY_MAP = {
     US: '$', JP: '¥', DE: '€', GB: '£', FR: '€', IT: '€', CA: '$', CN: '¥',
     IN: '₹', BR: 'R$', RU: '₽', ZA: 'R', AU: '$', AR: '$', ID: 'Rp',
-    MX: '$', SA: '﷼', KR: '₩', TR: '₺'
+    MX: '$', SA: '﷼', KR: '₩', TR: '₺', IL: '₪'
 };
 
 document.addEventListener('DOMContentLoaded', () => {
