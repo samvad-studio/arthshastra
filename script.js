@@ -13,6 +13,12 @@ const CURRENCY_MAP = {
     IN: '₹', BR: 'R$', RU: '₽', ZA: 'R', AU: '$', AR: '$', ID: 'Rp',
     MX: '$', SA: '﷼', KR: '₩', TR: '₺', IL: '₪'
 };
+const METRIC_FREQUENCY_MAP = {
+    'GDP_Growth_YoY': 'YoY Quarterly',
+    'Inflation_CPI_YoY': 'YoY Monthly',
+    'Unemployment_Percent': 'Monthly',
+    'TradeBalance_USD': 'Quarterly',
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- ELEMENT SELECTORS ---
@@ -111,24 +117,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const stockDisplayValue = `(${stockIndexName}) ${currencySymbol}${formattedStockValue}`;
         
         const tradeBalanceUnit = String(country.TradeBalance_Measure).toLowerCase().includes('million') ? 'mn' : 'bn';
-
+       const createFrequencyHTML = (metricKey) => {
+            const freqText = METRIC_FREQUENCY_MAP[metricKey];
+            return freqText ? `<br><span class="metric-frequency">${freqText}</span>` : '';
+        };
         let gridHTML = `
-            <div class="data-label">GDP Growth Rate</div>
+            <div class="data-label">GDP Growth Rate ${createFrequencyHTML('GDP_Growth_YoY')}</div>
             <div class="data-value"><span>${country.GDP_Growth_YoY}%</span>${createChangeHTML(country.GDP_Growth_YoY_Change, ' p.p.')}</div>
 
-            <div class="data-label">Inflation Rate</div>
+            <div class="data-label">Inflation Rate ${createFrequencyHTML('Inflation_CPI_YoY')}</div>
             <div class="data-value"><span>${country.Inflation_CPI_YoY}%</span>${createChangeHTML(country.Inflation_CPI_YoY_Change, ' p.p.', 'vs last period', true)}</div>
 
             <div class="data-label">Policy Rate</div>
             <div class="data-value"><span>${country.PolicyRate_Percent}%</span>${createChangeHTML(country.PolicyRate_Percent_Change, ' bps', 'vs last revision')}</div>
             
-            <div class="data-label">Unemployment Rate</div>
+            <div class="data-label">Unemmployment Rate ${createFrequencyHTML('Unemployment_Percent')}</div>
             <div class="data-value"><span>${country.Unemployment_Percent}%</span></div>
 
             <div class="data-label">Government 10Y Bond Yield</div>
             <div class="data-value"><span>${country.GovBond_10Y_Yield}%</span>${createChangeHTML(country.GovBond_10Y_Yield_Change, ' p.p.')}</div>
 
-            <div class="data-label">Trade Balance (USD)</div>
+           <div class="data-label">Trade Balance ${createFrequencyHTML('TradeBalance_USD')}</div>
             <div class="data-value">
                 <span>${country.TradeBalance_USD} ${tradeBalanceUnit}</span>
                 ${createChangeHTML(country.TradeBalance_USD_Change, ` ${tradeBalanceUnit}`)}
